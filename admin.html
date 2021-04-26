@@ -12,7 +12,7 @@
     <link href="css/admin.css" rel="stylesheet" />
   </head>
   <body onload="datos()">
-    <h1 id="titulo">Panel Administrativo</h1>
+    <h1 id="titulo" style="text-align: center; color: #000;">Panel Administrativo</h1>
 
     <!-- Optional JavaScript; choose one of the two! -->
 
@@ -24,19 +24,27 @@
         <div class="tab">
           <input type="radio" name="css-tabs" id="tab-1" checked class="tab-switch">
           <label for="tab-1" class="tab-label">Pacientes</label>
-          <div class="tab-content" style="width: 100%; margin-bottom: 1000px;">
-            <table class="table table-dark table-hover">
-              <thead class="thead-dark">
-                <tr>
-                  <th scope="col">No.</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Apellido</th>
-                  <th scope="col">Usuario</th>
-                  <th scope="col">Opciones</th>
-                </tr>
-              </thead>
-              <tbody id="tpacientes"></tbody>
-            </table>
+          <div class="tab-content" style="width: 100%;">
+            <div style="width:auto;">
+              <button type="button" class="btn btn-outline-primary" style="width: 180px; margin: 10px;">Seleccionar Archivo</button>
+              <button type="button" class="btn btn-outline-warning" style="width: 150px; margin: 10px;">Cargar Pacientes</button>
+            </div>
+            <div>
+              <table class="table table-dark table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Opciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tpacientes"></tbody>
+              </table>
+            </div>
+            
+            
           </div>
         </div>
         <div class="tab">
@@ -66,7 +74,31 @@
           var tablapacientes=document.querySelector('#tpacientes')
           var cadena=''
 
-          
+          fetch('https://backend-202010223.herokuapp.com/mostrarpacientes', {
+          method: 'Get',
+          headers:{
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',}})
+          .then(res => res.json())
+          .catch(err => {
+            console.error('Error:', err)
+            alert("Ocurrio un error, ver la consola")
+          })
+          .then(response=>{
+            var contador=1
+            response.forEach(element => {
+                    cadena+=`<tr>
+                      <td>${contador}</td>
+                      <td>${element.nombre}</td>
+                      <td>${element.apellido}</td>
+                      <td>${element.usuario}</td>
+                      <td><button value=${element.id} type="button" class="btn btn-outline-warning" style="width: 150px;">Ver detalles</button></td>
+                      </tr>`
+                    contador++
+                      
+            });
+            tablapacientes.innerHTML=cadena
+          })
       }
 
   </script>
