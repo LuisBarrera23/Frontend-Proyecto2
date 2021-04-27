@@ -10,6 +10,7 @@
 
     <title>Panel Administrador</title>
     <link href="css/admin.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/papaparse.min.js"></script>
   </head>
   <body onload="datos()">
     <h1 id="titulo" style="text-align: center; color: #000;">Panel Administrativo</h1>
@@ -26,8 +27,10 @@
           <label for="tab-1" class="tab-label">Pacientes</label>
           <div class="tab-content" style="width: 100%;">
             <div style="width:auto;">
-              <button type="button" class="btn btn-outline-primary" style="width: 180px; margin: 10px;">Seleccionar Archivo</button>
-              <button type="button" class="btn btn-outline-warning" style="width: 150px; margin: 10px;">Cargar Pacientes</button>
+              <label for="archivopacientes">Archivo .CSV</label>
+              <input type="file" class="form-control-file" id="archivopacientes" accept=".csv">
+            
+              <button onclick="cargarpacientes()" type="button" class="btn btn-outline-warning" style="width: 150px; margin-top: 10px; margin-bottom: 10px;">Cargar Pacientes</button>
             </div>
             <div>
               <table class="table table-dark table-hover">
@@ -101,5 +104,59 @@
           })
       }
 
+      function cargarpacientes(){
+        Papa.parse(document.getElementById('archivopacientes').files[0],{
+          download:true,
+          header:true,
+          complete:function(resultados){
+            resultados.data.map((data,index)=>{
+                guardarpacientes(data)
+            })
+          }
+        })
+        alert("Usuarios Cargados")
+      }
+
+      function guardarpacientes(data){
+        console.log(data)
+        console.log(data.Nombre)
+        var nombre=data.Nombre
+        var apellido=data.Apellido
+        var fecha=data.Fecha
+        var sexo=data.Sexo
+        var usuario=data.Usuario
+        var contraseña=data.Contraseña
+        var telefono=data.Telefono
+        
+        var objeto={
+          'nombre':nombre,
+          'apellido':apellido,
+          'fecha':fecha,
+          'sexo':sexo,
+          'usuario':usuario,
+          'contraseña':contraseña,
+          'telefono':telefono
+        }
+        console.log(objeto)
+
+
+        fetch('https://backend-202010223.herokuapp.com/registrar', {
+        method: 'POST',
+        body: JSON.stringify(objeto),
+        headers:{
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',}})
+        .then(res => res.json())
+        .catch(err => {
+          console.error('Error:', err)
+          alert("Ocurrio un error, ver la consola")
+        })
+        .then(response=>{
+          console.log(response.Mensaje)
+        })
+
+      }
+
   </script>
+  
 </html>
