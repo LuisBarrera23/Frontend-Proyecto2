@@ -100,8 +100,9 @@ function generarpdfpacientes() {
             pdfp.autoTable(columns, data,
                 { margin: { top: 25 } }
             );
-
-            pdfp.save('mipdf.pdf');
+            
+            var actual=new Date()
+            pdfp.save(`Pacientes ${actual.getDate()}/${actual.getMonth()}/${actual.getFullYear()}.pdf`);
 
             console.log(data)
 
