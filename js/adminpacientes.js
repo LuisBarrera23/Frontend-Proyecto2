@@ -1,37 +1,3 @@
-function datos() {
-    //var usuario=sessionStorage.usuario //inutilizado pero sirve para obtener quien inicio sesion
-    var tablapacientes = document.querySelector('#tpacientes')
-    var cadena = ''
-
-    fetch('https://backend-202010223.herokuapp.com/mostrarpacientes', {
-        method: 'Get',
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-        }
-    })
-        .then(res => res.json())
-        .catch(err => {
-            console.error('Error:', err)
-            alert("Ocurrio un error, ver la consola")
-        })
-        .then(response => {
-            var contador = 1
-            response.forEach(element => {
-                cadena += `<tr>
-                      <td>${contador}</td>
-                      <td>${element.nombre}</td>
-                      <td>${element.apellido}</td>
-                      <td>${element.usuario}</td>
-                      <td><button value=${element.id} onclick="verpaciente(this)" type="button" class="btn btn-outline-warning" style="width: 150px;">Ver detalles</button></td>
-                      </tr>`
-                contador++
-
-            });
-            tablapacientes.innerHTML = cadena
-        })
-}
-
 function cargarpacientes() {
     Papa.parse(document.getElementById('archivopacientes').files[0], {
         download: true,
@@ -101,7 +67,7 @@ function generarpdfpacientes() {
 
     pdfp.text(20, 20, "Los usuarios de tipo Paciente registrados son: ");
 
-    var columns = ["Id", "Nombre","Apellido",'Fecha de nacimiento','Sexo','Usuario','Contraseña','Telefono'];
+    var columns = ["Id", "Nombre", "Apellido", 'Fecha de nacimiento', 'Sexo', 'Usuario', 'Contraseña', 'Telefono'];
     var data = []
     var objeto = []
 
@@ -139,5 +105,39 @@ function generarpdfpacientes() {
 
             console.log(data)
 
+        })
+}
+
+function datos() {
+    //var usuario=sessionStorage.usuario //inutilizado pero sirve para obtener quien inicio sesion
+    var tablapacientes = document.querySelector('#tpacientes')
+    var cadena = ''
+
+    fetch('https://backend-202010223.herokuapp.com/mostrarpacientes', {
+        method: 'Get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+        }
+    })
+        .then(res => res.json())
+        .catch(err => {
+            console.error('Error:', err)
+            alert("Ocurrio un error, ver la consola")
+        })
+        .then(response => {
+            var contador = 1
+            response.forEach(element => {
+                cadena += `<tr>
+                      <td>${contador}</td>
+                      <td>${element.nombre}</td>
+                      <td>${element.apellido}</td>
+                      <td>${element.usuario}</td>
+                      <td><button value=${element.id} onclick="verpaciente(this)" type="button" class="btn btn-outline-warning" style="width: 150px;">Ver detalles</button></td>
+                      </tr>`
+                contador++
+
+            });
+            tablapacientes.innerHTML = cadena
         })
 }
