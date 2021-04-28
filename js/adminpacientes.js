@@ -119,7 +119,6 @@ function generarpdfpacientes() {
         })
         .then(response => {
             response.forEach(element => {
-                console.log(element.nombre)
                 objeto = [
                     element.id,
                     element.nombre,
