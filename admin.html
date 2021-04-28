@@ -11,14 +11,17 @@
     integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
   <title>Panel Administrador</title>
+  <!--seccion de archivos externos necesarios para el funcionamiento-->
   <link href="css/admin.css" rel="stylesheet" />
   <script type="text/javascript" src="js/papaparse.min.js"></script>
+  <script src="js/jspdf.min.js"></script>
+  <script src="js/jspdf.plugin.autotable.min.js"></script>
 </head>
 
 <body onload="datos()">
   <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="principal.html">Cerrar sesión</a>
+      <a class="navbar-brand js-scroll-trigger" href="principal.html">Cerrar sesión</a>
     </div>
   </nav><br>
   <h1 id="titulo" style="text-align: center; color: #000;">Panel Administrativo</h1>
@@ -42,6 +45,8 @@
 
             <button onclick="cargarpacientes()" type="button" class="btn btn-outline-warning"
               style="width: 150px; margin-top: 10px; margin-bottom: 10px;">Cargar Pacientes</button>
+            <button onclick="generarpdfpacientes()" type="button" class="btn btn-outline-danger"
+              style="width: 150px; margin-top: 10px; margin-bottom: 10px;">Generar PDF</button>
           </div>
           <div>
             <table class="table table-dark table-hover">
@@ -90,103 +95,6 @@
   </div>
 
 </body>
-<script>
-  function datos() {
-    //var usuario=sessionStorage.usuario //inutilizado pero sirve para obtener quien inicio sesion
-    var tablapacientes = document.querySelector('#tpacientes')
-    var cadena = ''
-
-    fetch('https://backend-202010223.herokuapp.com/mostrarpacientes', {
-      method: 'Get',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      }
-    })
-      .then(res => res.json())
-      .catch(err => {
-        console.error('Error:', err)
-        alert("Ocurrio un error, ver la consola")
-      })
-      .then(response => {
-        var contador = 1
-        response.forEach(element => {
-          cadena += `<tr>
-                      <td>${contador}</td>
-                      <td>${element.nombre}</td>
-                      <td>${element.apellido}</td>
-                      <td>${element.usuario}</td>
-                      <td><button value=${element.id} onclick="verpaciente(this)" type="button" class="btn btn-outline-warning" style="width: 150px;">Ver detalles</button></td>
-                      </tr>`
-          contador++
-
-        });
-        tablapacientes.innerHTML = cadena
-      })
-  }
-
-  function cargarpacientes() {
-    Papa.parse(document.getElementById('archivopacientes').files[0], {
-      download: true,
-      header: true,
-      complete: function (resultados) {
-        resultados.data.map((data, index) => {
-          guardarpacientes(data)
-        })
-      }
-    })
-    alert("Usuarios Cargados")
-    datos();
-  }
-
-  function guardarpacientes(data) {
-    console.log(data)
-    console.log(data.Nombre)
-    var nombre = data.Nombre
-    var apellido = data.Apellido
-    var fecha = data.Fecha
-    var sexo = data.Sexo
-    var usuario = data.Usuario
-    var contraseña = data.Contraseña
-    var telefono = data.Telefono
-
-    var objeto = {
-      'nombre': nombre,
-      'apellido': apellido,
-      'fecha': fecha,
-      'sexo': sexo,
-      'usuario': usuario,
-      'contraseña': contraseña,
-      'telefono': telefono
-    }
-    console.log(objeto)
-
-
-    fetch('https://backend-202010223.herokuapp.com/registrar', {
-      method: 'POST',
-      body: JSON.stringify(objeto),
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      }
-    })
-      .then(res => res.json())
-      .catch(err => {
-        console.error('Error:', err)
-        alert("Ocurrio un error, ver la consola")
-      })
-      .then(response => {
-        console.log(response.Mensaje)
-      })
-
-  }
-  
-  function verpaciente(boton){
-    var id=boton.value
-    sessionStorage.setItem('ID',id)
-    location.href="perfilusuario.html"
-  }
-
-</script>
+<script src="js/adminpacientes.js"></script>
 
 </html>
