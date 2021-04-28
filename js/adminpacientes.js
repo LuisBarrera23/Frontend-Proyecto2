@@ -6,10 +6,10 @@ function cargarpacientes() {
             resultados.data.map((data, index) => {
                 guardarpacientes(data)
             })
+            datos()
         }
     })
     alert("Usuarios Cargados")
-    datos();
 }
 
 function guardarpacientes(data) {
@@ -108,13 +108,36 @@ function generarpdfpacientes() {
         })
 }
 
+function eliminarpaciente(){
+    var id = sessionStorage.ID
+    fetch(`https://backend-202010223.herokuapp.com/eliminarpaciente/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+        }
+    })
+        .then(res => res.json())
+        .catch(err => {
+            console.error('Error:', err)
+            alert("Ocurrio un error, ver la consola")
+        })
+        .then(response => {
+            console.log(response.Mensaje)
+            alert(response.Mensaje)
+            if(response.Mensaje="El usuario fue eliminado con exito"){
+                location.href="admin.html"
+            }
+        })
+}
+
 function datos() {
     //var usuario=sessionStorage.usuario //inutilizado pero sirve para obtener quien inicio sesion
     var tablapacientes = document.querySelector('#tpacientes')
     var cadena = ''
 
     fetch('https://backend-202010223.herokuapp.com/mostrarpacientes', {
-        method: 'Get',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',

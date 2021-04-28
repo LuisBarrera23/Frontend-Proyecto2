@@ -88,7 +88,7 @@
 
                     <button onclick="modificar()" class="w-100 btn btn-lg btn-primary" type="button"
                         style="width: 500px; margin-top: 10px;">Modificar</button>
-                    <button onclick="eliminar()" class="w-100 btn btn-lg btn-primary" type="button"
+                    <button onclick="eliminarpaciente()" class="w-100 btn btn-lg btn-primary" type="button"
                         style="width: 500px; margin-top: 10px;">Eliminar Paciente</button>
                 </form>
             </div>
@@ -120,10 +120,6 @@
 
 
     <script>
-
-        function eliminar() {
-
-        }
 
         function modificar() {
 
@@ -165,13 +161,15 @@
                         'sexo': sexo,
                         'usuario': usuario,
                         'contraseña': contraseña,
-                        'telefono': telefono
+                        'telefono': telefono,
+                        'id':sessionStorage.ID
                     }
                     console.log(objeto)
 
 
-                    fetch('https://backend-202010223.herokuapp.com/registrar', {
-                        method: 'POST',
+
+                    fetch('https://backend-202010223.herokuapp.com/actualizarpaciente', {
+                        method: 'PUT',
                         body: JSON.stringify(objeto),
                         headers: {
                             'Content-Type': 'application/json',
@@ -185,9 +183,10 @@
                         })
                         .then(response => {
                             alert(response.Mensaje)
-                            if (response.Mensaje == "Su cuenta ha sido registrada con exito") {
-                                location.href = "admin.html"
+                            if(response.Mensaje="Su perfil ha sido modificado"){
+                                location.href="admin.html"
                             }
+                            
                         })
 
                 } else {
@@ -228,6 +227,7 @@
 
 
     </script>
+    <script src="js/adminpacientes.js"></script>
 </body>
 
 </html>
