@@ -1,10 +1,10 @@
-function cargarpacientes() {
-    Papa.parse(document.getElementById('archivopacientes').files[0], {
+function cargardoctores() {
+    Papa.parse(document.getElementById('archivodoctores').files[0], {
         download: true,
         header: true,
         complete: function (resultados) {
             resultados.data.map((data, index) => {
-                guardarpacientes(data)
+                guardardoctores(data)
             })
             datos()
         }
@@ -12,15 +12,15 @@ function cargarpacientes() {
     alert("Usuarios Cargados")
 }
 
-function guardarpacientes(data) {
+function guardardoctores(data) {
     console.log(data)
-    console.log(data.Nombre)
     var nombre = data.Nombre
     var apellido = data.Apellido
     var fecha = data.Fecha
     var sexo = data.Sexo
     var usuario = data.Usuario
     var contraseña = data.Contraseña
+    var especialidad = data.Especialidad
     var telefono = data.Telefono
 
     var objeto = {
@@ -30,12 +30,13 @@ function guardarpacientes(data) {
         'sexo': sexo,
         'usuario': usuario,
         'contraseña': contraseña,
+        'especialidad': especialidad,
         'telefono': telefono
     }
     console.log(objeto)
 
 
-    fetch('https://backend-202010223.herokuapp.com/registrar', {
+    fetch('https://backend-202010223.herokuapp.com/registrardoctor', {
         method: 'POST',
         body: JSON.stringify(objeto),
         headers: {
@@ -54,25 +55,25 @@ function guardarpacientes(data) {
 
 }
 
-function verpaciente(boton) {
+function verdoctor(boton) {
     var id = boton.value
     sessionStorage.setItem('ID', id)
-    location.href = "perfilusuario.html"
+    location.href = "perfildoctor.html"
 }
 
 
 
-function generarpdfpacientes() {
+function generarpdfdoctores() {
     var pdfp = new jsPDF();
 
     pdfp.text(20, 20, "Los usuarios de tipo Paciente registrados son: ");
 
-    var columns = ["Id", "Nombre", "Apellido", 'Fecha de nacimiento', 'Sexo', 'Usuario', 'Contraseña', 'Telefono'];
+    var columns = ["Id", "Nombre", "Apellido", 'Especialidad', 'Fecha de nacimiento', 'Sexo', 'Usuario', 'Contraseña', 'Telefono'];
     var data = []
     var objeto = []
 
-    fetch('https://backend-202010223.herokuapp.com/mostrarpacientes', {
-        method: 'Get',
+    fetch('https://backend-202010223.herokuapp.com/mostrarmedicos', {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
@@ -89,6 +90,7 @@ function generarpdfpacientes() {
                     element.id,
                     element.nombre,
                     element.apellido,
+                    element.especialidad,
                     element.fecha,
                     element.sexo,
                     element.usuario,
@@ -102,7 +104,7 @@ function generarpdfpacientes() {
             );
 
             var actual = new Date()
-            pdfp.save(`Pacientes ${actual.getDate()}/${actual.getMonth()}/${actual.getFullYear()}.pdf`);
+            pdfp.save(`Doctores ${actual.getDate()}/${actual.getMonth()}/${actual.getFullYear()}.pdf`);
 
             console.log(data)
 
@@ -132,19 +134,18 @@ function eliminarpaciente() {
         })
 }
 
-
-
-function modificarpaciente() {
+function modificardoctor() {
 
     var nombre = document.querySelector('#nombre').value
     var apellido = document.querySelector('#apellido').value
+    var especialidad = document.querySelector('#especialidad').value
     var fecha = document.querySelector('#fecha').value
     var sexo = document.querySelector('#sexo').value
     var usuario = document.querySelector('#usuario').value
     var contraseña = document.querySelector('#contraseña').value
     var telefono = document.querySelector('#telefono').value
 
-    if (nombre.length == 0 || apellido.length == 0 || fecha.length == 0 || sexo.length == 0 || usuario.length == 0 || contraseña.length == 0) {
+    if (nombre.length == 0 || apellido.length == 0 || fecha.length == 0 || sexo.length == 0 || usuario.length == 0 || contraseña.length == 0 || especialidad.length == 0) {
         var cadena = ""
         if (nombre.length == 0) {
             cadena += "Nombre, "
@@ -164,12 +165,16 @@ function modificarpaciente() {
         if (contraseña.length == 0) {
             cadena += "Contraseña, "
         }
+        if (especialidad.length == 0) {
+            cadena += "Especialidad, "
+        }
         alert("Por favor llenar los siguientes campos: " + cadena)
     } else {
         if (contraseña.length >= 8) {
             var objeto = {
                 'nombre': nombre,
                 'apellido': apellido,
+                'especialidad': especialidad,
                 'fecha': fecha,
                 'sexo': sexo,
                 'usuario': usuario,
@@ -211,9 +216,9 @@ function modificarpaciente() {
 }
 
 
-function obtenerdatospaciente() {
+function obtenerdatosdoctor() {
     var id = sessionStorage.ID
-    fetch(`https://backend-202010223.herokuapp.com/paciente/${id}`, {
+    fetch(`https://backend-202010223.herokuapp.com/doctor/${id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -228,6 +233,7 @@ function obtenerdatospaciente() {
         .then(response => {
             document.querySelector('#nombre').value = response.nombre
             document.querySelector('#apellido').value = response.apellido
+            document.querySelector('#especialidad').value = response.especialidad
             document.querySelector('#fecha').value = response.fecha
             document.querySelector('#sexo').value = response.sexo
             document.querySelector('#usuario').value = response.usuario

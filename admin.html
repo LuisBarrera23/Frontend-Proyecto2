@@ -35,6 +35,8 @@
 
   <div class="wrapper">
     <div class="tabs">
+
+      <!-- Tabbed de Pacientes-->
       <div class="tab">
         <input type="radio" name="css-tabs" id="tab-1" checked class="tab-switch">
         <label for="tab-1" class="tab-label">Pacientes</label>
@@ -62,16 +64,39 @@
               <tbody id="tpacientes"></tbody>
             </table>
           </div>
-
-
         </div>
       </div>
+
+      <!-- Tabbed de Medicos-->
       <div class="tab">
         <input type="radio" name="css-tabs" id="tab-2" class="tab-switch">
         <label for="tab-2" class="tab-label">Medicos</label>
-        <div class="tab-content">My father now and then sending me small sums of money, I laid them out in learning
-          navigation, and other parts of the mathematics, useful to those who intend to travel, as I always believed it
-          would be, some time or other, my fortune to do. </div>
+        <div class="tab-content" style="width: 100%;">
+          <div style="width:auto;">
+            <label for="archivodoctores">Archivo .CSV</label>
+            <input type="file" class="form-control-file" id="archivodoctores" accept=".csv">
+
+            <button onclick="cargardoctores()" type="button" class="btn btn-outline-warning"
+              style="width: 150px; margin-top: 10px; margin-bottom: 10px;">Cargar Doctores</button>
+            <button onclick="generarpdfdoctores()" type="button" class="btn btn-outline-danger"
+              style="width: 150px; margin-top: 10px; margin-bottom: 10px;">Generar PDF</button>
+          </div>
+          <div>
+            <table class="table table-dark table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Apellido</th>
+                  <th scope="col">Usuario</th>
+                  <th scope="col">Especialidad</th>
+                  <th scope="col">Opciones</th>
+                </tr>
+              </thead>
+              <tbody id="tdoctores"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
       <div class="tab">
         <input type="radio" name="css-tabs" id="tab-3" class="tab-switch">
@@ -91,10 +116,77 @@
         </div>
       </div>
     </div>
-    <p>Example line outside of tab box</p>
   </div>
 
 </body>
+<script>
+  function datos() {
+    //var usuario=sessionStorage.usuario //inutilizado pero sirve para obtener quien inicio sesion
+    var tablapacientes = document.querySelector('#tpacientes')
+    var cadena = ''
+
+    fetch('https://backend-202010223.herokuapp.com/mostrarpacientes', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      }
+    })
+      .then(res => res.json())
+      .catch(err => {
+        console.error('Error:', err)
+        alert("Ocurrio un error, ver la consola")
+      })
+      .then(response => {
+        var contador = 1
+        response.forEach(element => {
+          cadena += `<tr>
+                      <td>${contador}</td>
+                      <td>${element.nombre}</td>
+                      <td>${element.apellido}</td>
+                      <td>${element.usuario}</td>
+                      <td><button value=${element.id} onclick="verpaciente(this)" type="button" class="btn btn-outline-warning" style="width: 150px;">Ver detalles</button></td>
+                      </tr>`
+          contador++
+
+        });
+        tablapacientes.innerHTML = cadena
+      })
+
+    var tabladoctores = document.querySelector('#tdoctores')
+    var cadena2 = ''
+
+    fetch('https://backend-202010223.herokuapp.com/mostrarmedicos', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      }
+    })
+      .then(res => res.json())
+      .catch(err => {
+        console.error('Error:', err)
+        alert("Ocurrio un error, ver la consola")
+      })
+      .then(response => {
+        var contador2 = 1
+        response.forEach(element => {
+          cadena2 += `<tr>
+                      <td>${contador2}</td>
+                      <td>${element.nombre}</td>
+                      <td>${element.apellido}</td>
+                      <td>${element.usuario}</td>
+                      <td>${element.especialidad}</td>
+                      <td><button value=${element.id} onclick="verdoctor(this)" type="button" class="btn btn-outline-warning" style="width: 150px;">Ver detalles</button></td>
+                      </tr>`
+          contador2++
+
+        });
+        tabladoctores.innerHTML = cadena2
+      })
+  }
+</script>
 <script src="js/adminpacientes.js"></script>
+<script src="js/admindoctores.js"></script>
 
 </html>
