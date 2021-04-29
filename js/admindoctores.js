@@ -111,9 +111,9 @@ function generarpdfdoctores() {
         })
 }
 
-function eliminarpaciente() {
+function eliminardoctor() {
     var id = sessionStorage.ID
-    fetch(`https://backend-202010223.herokuapp.com/eliminarpaciente/${id}`, {
+    fetch(`https://backend-202010223.herokuapp.com/eliminardoctor/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ function modificardoctor() {
 
 
 
-            fetch('https://backend-202010223.herokuapp.com/actualizarpaciente', {
+            fetch('https://backend-202010223.herokuapp.com/actualizarmedico', {
                 method: 'PUT',
                 body: JSON.stringify(objeto),
                 headers: {
