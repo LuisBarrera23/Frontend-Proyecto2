@@ -98,12 +98,35 @@
           </div>
         </div>
       </div>
+
+      <!--Tabbed de Enfermeras  -->
       <div class="tab">
         <input type="radio" name="css-tabs" id="tab-3" class="tab-switch">
         <label for="tab-3" class="tab-label">Enfermeras</label>
-        <div class="tab-content">When I left Mr. Bates, I went down to my father: where, by the assistance of him and my
-          uncle John, and some other relations, I got forty pounds, and a promise of thirty pounds a year to maintain me
-          at Leyden: there I studied physic two years and seven months, knowing it would be useful in long voyages.
+        <div class="tab-content" style="width: 100%;">
+          <div style="width:auto;">
+            <label for="archivoenfermeras">Archivo .CSV</label>
+            <input type="file" class="form-control-file" id="archivoenfermeras" accept=".csv">
+
+            <button onclick="cargarenfermeras()" type="button" class="btn btn-outline-warning"
+              style="width: 150px; margin-top: 10px; margin-bottom: 10px;">Cargar Enfermeras</button>
+            <button onclick="generarpdfenfermeras()" type="button" class="btn btn-outline-danger"
+              style="width: 150px; margin-top: 10px; margin-bottom: 10px;">Generar PDF</button>
+          </div>
+          <div>
+            <table class="table table-dark table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Apellido</th>
+                  <th scope="col">Usuario</th>
+                  <th scope="col">Opciones</th>
+                </tr>
+              </thead>
+              <tbody id="tenfermeras"></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -184,9 +207,41 @@
         });
         tabladoctores.innerHTML = cadena2
       })
+
+    var tablaenfermeras = document.querySelector('#tenfermeras')
+    var cadena3 = ''
+
+    fetch('https://backend-202010223.herokuapp.com/mostrarenfermeras', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      }
+    })
+      .then(res => res.json())
+      .catch(err => {
+        console.error('Error:', err)
+        alert("Ocurrio un error, ver la consola")
+      })
+      .then(response => {
+        var contador3 = 1
+        response.forEach(element => {
+          cadena3 += `<tr>
+                      <td>${contador3}</td>
+                      <td>${element.nombre}</td>
+                      <td>${element.apellido}</td>
+                      <td>${element.usuario}</td>
+                      <td><button value=${element.id} onclick="verenfermera(this)" type="button" class="btn btn-outline-warning" style="width: 150px;">Ver detalles</button></td>
+                      </tr>`
+          contador3++
+
+        });
+        tablaenfermeras.innerHTML = cadena3
+      })
   }
 </script>
 <script src="js/adminpacientes.js"></script>
 <script src="js/admindoctores.js"></script>
+<script src="js/adminenfermeras.js"></script>
 
 </html>

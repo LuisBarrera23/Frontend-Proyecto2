@@ -13,7 +13,6 @@ function cargarenfermeras() {
 }
 
 function guardarenfermeras(data) {
-    console.log(data)
     console.log(data.Nombre)
     var nombre = data.Nombre
     var apellido = data.Apellido
@@ -54,25 +53,25 @@ function guardarenfermeras(data) {
 
 }
 
-function verpaciente(boton) {
+function verenfermera(boton) {
     var id = boton.value
     sessionStorage.setItem('ID', id)
-    location.href = "perfilusuario.html"
+    location.href = "perfilenfermera.html"
 }
 
 
 
-function generarpdfpacientes() {
+function generarpdfenfermeras() {
     var pdfp = new jsPDF();
 
-    pdfp.text(20, 20, "Los usuarios de tipo Paciente registrados son: ");
+    pdfp.text(20, 20, "Los usuarios de tipo Enfermera registrados son: ");
 
     var columns = ["Id", "Nombre", "Apellido", 'Fecha de nacimiento', 'Sexo', 'Usuario', 'Contraseña', 'Telefono'];
     var data = []
     var objeto = []
 
-    fetch('https://backend-202010223.herokuapp.com/mostrarpacientes', {
-        method: 'Get',
+    fetch('https://backend-202010223.herokuapp.com/mostrarenfermeras', {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
@@ -102,16 +101,16 @@ function generarpdfpacientes() {
             );
 
             var actual = new Date()
-            pdfp.save(`Pacientes ${actual.getDate()}/${actual.getMonth()}/${actual.getFullYear()}.pdf`);
+            pdfp.save(`Enfermeras ${actual.getDate()}/${actual.getMonth()}/${actual.getFullYear()}.pdf`);
 
             console.log(data)
 
         })
 }
 
-function eliminarpaciente() {
+function eliminarenfermera() {
     var id = sessionStorage.ID
-    fetch(`https://backend-202010223.herokuapp.com/eliminarpaciente/${id}`, {
+    fetch(`https://backend-202010223.herokuapp.com/eliminarenfermera/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -134,7 +133,7 @@ function eliminarpaciente() {
 
 
 
-function modificarpaciente() {
+function modificarenfermera() {
 
     var nombre = document.querySelector('#nombre').value
     var apellido = document.querySelector('#apellido').value
@@ -181,7 +180,7 @@ function modificarpaciente() {
 
 
 
-            fetch('https://backend-202010223.herokuapp.com/actualizarpaciente', {
+            fetch('https://backend-202010223.herokuapp.com/actualizarenfermera', {
                 method: 'PUT',
                 body: JSON.stringify(objeto),
                 headers: {
@@ -211,9 +210,9 @@ function modificarpaciente() {
 }
 
 
-function obtenerdatospaciente() {
+function obtenerdatosenfermera() {
     var id = sessionStorage.ID
-    fetch(`https://backend-202010223.herokuapp.com/paciente/${id}`, {
+    fetch(`https://backend-202010223.herokuapp.com/enfermera/${id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
