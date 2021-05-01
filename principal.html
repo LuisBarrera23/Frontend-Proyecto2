@@ -354,12 +354,43 @@
                             }
                         });
                         if (user == false) {
-                            alert("El usuario o contraseña es incorrecto")
+                            verenfermeras(usuario,contraseña);
                         }
                     })
 
             }
 
+
+        }
+        function verenfermeras(usuario,contraseña){
+            user=false
+            fetch('https://backend-202010223.herokuapp.com/mostrarenfermeras', {
+                    method: 'Get',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                    }
+                })
+                    .then(res => res.json())
+                    .catch(err => {
+                        console.error('Error:', err)
+                        alert("Ocurrio un error, ver la consola")
+                    })
+                    .then(response => {
+                        response.forEach(element => {
+                            console.log(element.usuario+"vs "+usuario+",,, "+element.contraseña+"vs "+contraseña)
+                            if ((element.usuario == usuario) && (element.contraseña == contraseña)) {
+                                alert("Bienvenido " + usuario)
+                                sessionStorage.setItem("ID", element.id)
+                                sessionStorage.setItem('nombre',element.nombre+" "+element.apellido)
+                                location.href = "enfermera.html"
+                                user = true
+                            }
+                        });
+                        if (user == false) {
+                            alert("usuario no encontrado")
+                        }
+                    })
 
         }
 
