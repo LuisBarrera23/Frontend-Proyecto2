@@ -347,7 +347,8 @@
                             console.log(element.usuario+"vs "+usuario+",,, "+element.contraseña+"vs "+contraseña)
                             if ((element.usuario == usuario) && (element.contraseña == contraseña)) {
                                 alert("Bienvenido " + usuario)
-                                sessionStorage.setItem("ID", response.id)
+                                sessionStorage.setItem("ID", element.id)
+                                sessionStorage.setItem('nombre',element.nombre+" "+element.apellido)
                                 location.href = "paciente.html"
                                 user = true
                             }
