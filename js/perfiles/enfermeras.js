@@ -180,7 +180,8 @@ function rechazarcita(boton) {
     var objeto = {
         'idcita': idcita,
         'doctor': " ",
-        'estado': "Rechazada"
+        'estado': "Rechazada",
+        'iddoctor': -1
     }
     console.log(objeto)
 
@@ -210,6 +211,8 @@ function rechazarcita(boton) {
 
 function aceptarcita(boton) {
     var idcita = boton.value
+    sessionStorage.setItem('idcita', idcita)
+    location.href = "citasaceptadas.html"
     console.log(idcita)
 }
 
@@ -236,5 +239,123 @@ function obtenerdatosenfermera() {
             document.querySelector('#contraseña').value = response.contraseña
             document.querySelector('#telefono').value = response.telefono
 
+        })
+}
+
+function obtenerdatoscita() {
+    var idcita = sessionStorage.idcita
+    fetch(`https://backend-202010223.herokuapp.com/mostrarcita/${idcita}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+        }
+    })
+        .then(res => res.json())
+        .catch(err => {
+            console.error('Error:', err)
+            alert("Ocurrio un error, ver la consola")
+        })
+        .then(response => {
+            document.querySelector('#fecha').value = response.fecha
+            document.querySelector('#hora').value = response.hora
+            document.querySelector('#motivo').value = response.motivo
+        })
+
+    var cadena = ''
+    var opciones=document.querySelector('#doctores')
+
+    fetch('https://backend-202010223.herokuapp.com/mostrarmedicos', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+        }
+    })
+        .then(res => res.json())
+        .catch(err => {
+            console.error('Error:', err)
+            alert("Ocurrio un error, ver la consola")
+        })
+        .then(response => {
+            response.forEach(element => {
+                cadena += `
+                <option value="${element.id}" name="${element.nombre} ${element.apellido}">${element.nombre} ${element.apellido}</option>
+                `
+
+            });
+            opciones.innerHTML = cadena
+        })
+}
+
+function confirmarcita(){
+    var idcita = sessionStorage.idcita
+    var iddoctor=document.querySelector('#doctores').value
+    var select=document.querySelector('#doctores')
+    var doctor=select.options[select.selectedIndex].text
+    var objeto = {
+        'idcita': idcita,
+        'doctor': doctor,
+        'estado': "Aceptada",
+        'iddoctor': iddoctor
+    }
+    console.log(objeto)
+
+
+
+    fetch('https://backend-202010223.herokuapp.com/actualizarcita', {
+        method: 'PUT',
+        body: JSON.stringify(objeto),
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+        }
+    })
+        .then(res => res.json())
+        .catch(err => {
+            console.error('Error:', err)
+            alert("Ocurrio un error, ver la consola")
+        })
+        .then(response => {
+            alert(response.Mensaje)
+            if (response.Mensaje = "Cita actualizada con exito") {
+                vercitas()
+            }
+
+        })
+}
+
+
+function vercitasaceptadas() {
+    console.log(sessionStorage.nombre)
+    document.querySelector('#nombreenfermera').innerHTML = sessionStorage.nombre
+    var tablacitas = document.querySelector('#tpendientes')
+    var cadena = ''
+
+    fetch('https://backend-202010223.herokuapp.com/mostrarcitas', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+        }
+    })
+        .then(res => res.json())
+        .catch(err => {
+            console.error('Error:', err)
+            alert("Ocurrio un error, ver la consola")
+        })
+        .then(response => {
+            response.forEach(element => {
+                if (element.estado == "Aceptada") {
+                    cadena += `<tr>
+                      <td>${element.fecha}</td>
+                      <td>${element.hora}</td>
+                      <td>${element.motivo}</td>
+                      <td>${element.doctor}</td>
+                      <td>${element.estado}</td>
+                      </tr>`
+                }
+            });
+            tablacitas.innerHTML = cadena
         })
 }
