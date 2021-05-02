@@ -263,7 +263,7 @@ function obtenerdatoscita() {
         })
 
     var cadena = ''
-    var opciones=document.querySelector('#doctores')
+    var opciones = document.querySelector('#doctores')
 
     fetch('https://backend-202010223.herokuapp.com/mostrarmedicos', {
         method: 'GET',
@@ -288,11 +288,11 @@ function obtenerdatoscita() {
         })
 }
 
-function confirmarcita(){
+function confirmarcita() {
     var idcita = sessionStorage.idcita
-    var iddoctor=document.querySelector('#doctores').value
-    var select=document.querySelector('#doctores')
-    var doctor=select.options[select.selectedIndex].text
+    var iddoctor = document.querySelector('#doctores').value
+    var select = document.querySelector('#doctores')
+    var doctor = select.options[select.selectedIndex].text
     var objeto = {
         'idcita': idcita,
         'doctor': doctor,

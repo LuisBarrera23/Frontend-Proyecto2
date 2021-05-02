@@ -15,23 +15,20 @@
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        <script src="js/jspdf.min.js"></script>
+        <script src="js/jspdf.plugin.autotable.min.js"></script>
     </head>
     <body id="page-top" onload="vercitas()">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Home</a>
+                <a class="navbar-brand js-scroll-trigger" href="enfermera.html">Regresar</a>
                 <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#citas">Citas</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="facturaenfermera.html">Generar Factura</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="listadoaceptadas.html">Citas Aceptadas</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="editarperfilenfermera.html">Editar Perfil</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="principal.html">Cerrar Sesión</a></li>
                         
                     </ul>
                 </div>
@@ -56,12 +53,14 @@
                 <p class="masthead-subheading font-weight-light mb-0" id="nombreenfermera"></p>
             </div>
         </header>
-        <!-- Seccion de citas-->
         
-        <section class="page-section portfolio" id="citas">
+
+        <!-- Seccion de facturas-->
+        
+        <section class="page-section portfolio" id="facturas">
             <div class="container">
                 <!-- Portfolio Section Heading-->
-                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Citas Pendientes</h2>
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Generar Factura</h2>
                 <!-- Icon Divider-->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
@@ -69,22 +68,42 @@
                     <div class="divider-custom-line"></div>
                 </div>
             </div>
+            <div class="row justify-content-center">
+                <form>
+                    <div class="form-floating">
+                        <input type="date" class="form-control" id="fecha" placeholder="Fecha" style="width: 500px; margin-top: 10px;">
+                    </div>
+                
+                    <div class="form-floating">
+                        <input type="input" class="form-control" id="paciente" placeholder="Paciente"
+                            style="width: 500px; margin-top: 10px;" required>
+                    </div>
+                    <div class="form-floating">
+                        <select class="form-control" id="doctores" style="margin-top: 10px;">
 
-
-            <div style="width: 1400px; margin: auto; margin-top: 10px; " >
-              <table class="table table-dark table-hover">
-                <thead class="thead-dark">
-                  <tr>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Hora</th>
-                    <th scope="col">Motivo</th>
-                    <th scope="col">Doctor</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Opciones</th>
-                  </tr>
-                </thead>
-                <tbody id="tpendientes"></tbody>
-              </table>
+                        </select>
+                    </div>
+                    <div class="form-floating">
+                        <input type="input" class="form-control" id="consulta" placeholder="Precio Consulta"
+                            style="width: 500px; margin-top: 10px;">
+                    </div>
+                    <div class="form-floating">
+                        <input type="input" class="form-control" id="operacion" placeholder="Costo Operacion"
+                            style="width: 500px; margin-top: 10px;">
+                    </div>
+                    <div class="form-floating">
+                        <input type="input" class="form-control" id="internado" placeholder="Costo Internado"
+                            style="width: 500px; margin-top: 10px;">
+                    </div>
+                    <div class="form-floating">
+                        <input type="input" class="form-control" id="total" placeholder="Costo total"
+                            style="width: 500px; margin-top: 10px;">
+                    </div>
+                
+                
+                    <button onclick="generarfactura()" class="w-100 btn btn-lg btn-primary" type="button"
+                        style="width: 500px; margin-top: 10px;">Generar Factura</button>
+                </form>
             </div>
 
         </section>
@@ -110,9 +129,8 @@
         <script src="js/scripts.js"></script>
 
 
-        <script src="js/perfiles/enfermeras.js"></script>
-        <script src="js/jspdf.min.js"></script>
-        <script src="js/jspdf.plugin.autotable.min.js"></script>
+        <script src="js/perfiles/facturaenfermera.js"></script>
+
         
     </body>
 </html>
