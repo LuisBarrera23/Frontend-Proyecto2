@@ -163,6 +163,7 @@ function vercitas() {
                     cadena += `<tr>
                       <td>${element.fecha}</td>
                       <td>${element.hora}</td>
+                      <td>${element.paciente}</td>
                       <td>${element.motivo}</td>
                       <td>${element.doctor}</td>
                       <td>${element.estado}</td>
@@ -350,6 +351,7 @@ function vercitasaceptadas() {
                     cadena += `<tr>
                       <td>${element.fecha}</td>
                       <td>${element.hora}</td>
+                      <td>${element.paciente}</td>
                       <td>${element.motivo}</td>
                       <td>${element.doctor}</td>
                       <td>${element.estado}</td>

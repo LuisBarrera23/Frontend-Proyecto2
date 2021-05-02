@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Panel Citas Aceptadas</title>
+        <title>Panel principal Doctor</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
@@ -16,18 +16,22 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
     </head>
-    <body id="page-top" onload="vercitasaceptadas()">
+    <body id="page-top" onload="vercitas()">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="enfermera.html">Regresar</a>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Home</a>
                 <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#citasasignadas">Citas Asignadas</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#historial">Historial de citas</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#citaspendientes">Citas Pendientes</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="editarperfildoctor.html">Editar Perfil</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="principal.html">Cerrar Sesión</a></li>
                         
                     </ul>
                 </div>
@@ -48,16 +52,15 @@
                 </div>
                 <!-- Masthead Subheading-->
                 <p class="masthead-subheading font-weight-light mb-0">Atención Humanizada y Segura</p>
-                <p class="masthead-subheading font-weight-light mb-0">Enfermera</p>
-                <p class="masthead-subheading font-weight-light mb-0" id="nombreenfermera"></p>
+                <p class="masthead-subheading font-weight-light mb-0">Doctor</p>
+                <p class="masthead-subheading font-weight-light mb-0" id="nombredoctor"></p>
             </div>
         </header>
-        <!-- Seccion de citas-->
-        
-        <section class="page-section portfolio" id="citas">
+        <!-- Seccion de citas asignadas-->
+        <section class="page-section portfolio" id="citasasignadas">
             <div class="container">
                 <!-- Portfolio Section Heading-->
-                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Citas Aceptadas</h2>
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Citas Asignadas</h2>
                 <!-- Icon Divider-->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
@@ -77,6 +80,70 @@
                     <th scope="col">Motivo</th>
                     <th scope="col">Doctor</th>
                     <th scope="col">Estado</th>
+                    <th scope="col">Opciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tasignadas"></tbody>
+              </table>
+            </div>
+
+        </section>
+        <!-- Seccion de Historial de citas-->
+        <section class="page-section portfolio" id="historial">
+            <div class="container">
+                <!-- Portfolio Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Historial de citas</h2>
+                <!-- Icon Divider-->
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+            </div>
+
+
+            <div style="width: 1400px; margin: auto; margin-top: 10px; " >
+              <table class="table table-dark table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Paciente</th>
+                    <th scope="col">Motivo</th>
+                    <th scope="col">Doctor</th>
+                    <th scope="col">Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="thistorial"></tbody>
+              </table>
+            </div>
+
+        </section>
+        <!-- Seccion de citas pendientes-->
+        <section class="page-section portfolio" id="citaspendientes">
+            <div class="container">
+                <!-- Portfolio Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Citas Pendientes de Confirmar</h2>
+                <!-- Icon Divider-->
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+            </div>
+
+
+            <div style="width: 1400px; margin: auto; margin-top: 10px; margin-bottom: 250px; " >
+              <table class="table table-dark table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Paciente</th>
+                    <th scope="col">Motivo</th>
+                    <th scope="col">Doctor</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Opciones</th>
                   </tr>
                 </thead>
                 <tbody id="tpendientes"></tbody>
@@ -106,8 +173,9 @@
         <script src="js/scripts.js"></script>
 
 
-        <script src="js/perfiles/enfermeras.js"></script>
+        <script src="js/perfiles/doctores.js"></script>
         <script src="js/jspdf.min.js"></script>
+        <script src="js/jspdf.plugin.autotable.min.js"></script>
         
     </body>
 </html>

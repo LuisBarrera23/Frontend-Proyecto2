@@ -344,17 +344,17 @@
                     })
                     .then(response => {
                         response.forEach(element => {
-                            console.log(element.usuario+"vs "+usuario+",,, "+element.contraseña+"vs "+contraseña)
+                            console.log(element.usuario + "vs " + usuario + ",,, " + element.contraseña + "vs " + contraseña)
                             if ((element.usuario == usuario) && (element.contraseña == contraseña)) {
                                 alert("Bienvenido " + usuario)
                                 sessionStorage.setItem("ID", element.id)
-                                sessionStorage.setItem('nombre',element.nombre+" "+element.apellido)
+                                sessionStorage.setItem('nombre', element.nombre + " " + element.apellido)
                                 location.href = "paciente.html"
                                 user = true
                             }
                         });
                         if (user == false) {
-                            verenfermeras(usuario,contraseña);
+                            verenfermeras(usuario, contraseña);
                         }
                     })
 
@@ -362,36 +362,67 @@
 
 
         }
-        function verenfermeras(usuario,contraseña){
-            user=false
+        function verenfermeras(usuario, contraseña) {
+            user = false
             fetch('https://backend-202010223.herokuapp.com/mostrarenfermeras', {
-                    method: 'Get',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*',
+                method: 'Get',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                }
+            })
+                .then(res => res.json())
+                .catch(err => {
+                    console.error('Error:', err)
+                    alert("Ocurrio un error, ver la consola")
+                })
+                .then(response => {
+                    response.forEach(element => {
+                        console.log(element.usuario + "vs " + usuario + ",,, " + element.contraseña + "vs " + contraseña)
+                        if ((element.usuario == usuario) && (element.contraseña == contraseña)) {
+                            alert("Bienvenido " + usuario)
+                            sessionStorage.setItem("ID", element.id)
+                            sessionStorage.setItem('nombre', element.nombre + " " + element.apellido)
+                            location.href = "enfermera.html"
+                            user = true
+                        }
+                    });
+                    if (user == false) {
+                        verdoctores(usuario, contraseña);
                     }
                 })
-                    .then(res => res.json())
-                    .catch(err => {
-                        console.error('Error:', err)
-                        alert("Ocurrio un error, ver la consola")
-                    })
-                    .then(response => {
-                        response.forEach(element => {
-                            console.log(element.usuario+"vs "+usuario+",,, "+element.contraseña+"vs "+contraseña)
-                            if ((element.usuario == usuario) && (element.contraseña == contraseña)) {
-                                alert("Bienvenido " + usuario)
-                                sessionStorage.setItem("ID", element.id)
-                                sessionStorage.setItem('nombre',element.nombre+" "+element.apellido)
-                                location.href = "enfermera.html"
-                                user = true
-                            }
-                        });
-                        if (user == false) {
-                            alert("usuario no encontrado")
-                        }
-                    })
 
+        }
+
+        function verdoctores(usuario, contraseña) {
+            user = false
+            fetch('https://backend-202010223.herokuapp.com/mostrarmedicos', {
+                method: 'Get',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                }
+            })
+                .then(res => res.json())
+                .catch(err => {
+                    console.error('Error:', err)
+                    alert("Ocurrio un error, ver la consola")
+                })
+                .then(response => {
+                    response.forEach(element => {
+                        console.log(element.usuario + "vs " + usuario + ",,, " + element.contraseña + "vs " + contraseña)
+                        if ((element.usuario == usuario) && (element.contraseña == contraseña)) {
+                            alert("Bienvenido " + usuario)
+                            sessionStorage.setItem("ID", element.id)
+                            sessionStorage.setItem('nombre', element.nombre + " " + element.apellido)
+                            location.href = "doctor.html"
+                            user = true
+                        }
+                    });
+                    if (user == false) {
+                        alert("usuario no encontrado")
+                    }
+                })
         }
 
         function registrarusuario() {
