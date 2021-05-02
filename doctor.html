@@ -20,13 +20,13 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Home</a>
                 <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#recetas">Recetas</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#citasasignadas">Citas Asignadas</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#historial">Historial de citas</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#citaspendientes">Citas Pendientes</a></li>
@@ -56,6 +56,48 @@
                 <p class="masthead-subheading font-weight-light mb-0" id="nombredoctor"></p>
             </div>
         </header>
+
+        <!-- Seccion de Recetas-->
+        
+        <section class="page-section portfolio" id="recetas">
+            <div class="container">
+                <!-- Portfolio Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Generar Receta</h2>
+                <!-- Icon Divider-->
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <form>
+                    <div class="form-floating">
+                        <input type="date" class="form-control" id="fecha" placeholder="Fecha" style="width: 500px; margin-top: 10px;">
+                    </div>
+                
+                    <div class="form-floating">
+                        <input type="input" class="form-control" id="paciente" placeholder="Paciente"
+                            style="width: 500px; margin-top: 10px;" required>
+                    </div>
+                    
+                    <div class="form-floating">
+                        <input type="input" class="form-control" id="padecimiento" placeholder="Padecimiento"
+                            style="width: 500px; margin-top: 10px;">
+                    </div>
+
+                    <div class="form-floating">
+                        <textarea class="form-control" id="descripcion" rows="5" style="margin-top: 10px;" placeholder="Descripcion al paciente"></textarea>
+                    </div>
+                
+                
+                    <button onclick="generarreceta()" class="w-100 btn btn-lg btn-primary" type="button"
+                        style="width: 500px; margin-top: 10px;">Generar Receta</button>
+                </form>
+            </div>
+
+        </section>
+
         <!-- Seccion de citas asignadas-->
         <section class="page-section portfolio" id="citasasignadas">
             <div class="container">

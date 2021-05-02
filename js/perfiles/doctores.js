@@ -241,7 +241,7 @@ function aceptarcita(boton) {
         })
 }
 
-function completarcita(checkbox){
+function completarcita(checkbox) {
     var idcita = checkbox.value
     console.log(idcita)
     var objeto = {
@@ -274,4 +274,65 @@ function completarcita(checkbox){
             }
 
         })
+}
+
+function generarreceta() {
+    var dato = document.querySelector('#fecha').value
+    var resFecha = dato.split("-")
+    var reversedFecha = resFecha.reverse()
+    var fecha = reversedFecha.join('-')
+    var paciente = document.querySelector('#paciente').value
+    var padecimiento = document.querySelector('#padecimiento').value
+    var descripcion = document.querySelector('#descripcion').value
+
+    console.log(fecha)
+    console.log(paciente)
+    console.log(padecimiento)
+    console.log(descripcion)
+
+    var objeto = []
+
+    if (fecha.length == 0 || paciente.length == 0 || padecimiento.length == 0 || descripcion.length == 0) {
+        var cadena = ""
+        if (fecha.length == 0) {
+            cadena += "Fecha, "
+        }
+        if (paciente.length == 0) {
+            cadena += "paciente, "
+        }
+        if (padecimiento.length == 0) {
+            cadena += "padecimiento, "
+        }
+        if (descripcion.length == 0) {
+            cadena += "descripcion, "
+        }
+        alert("Por favor llenar los siguientes campos: " + cadena)
+    } else {
+        objeto = [
+            fecha,
+            paciente,
+            padecimiento,
+        ]
+
+        var pdfp = new jsPDF();
+        var actual = new Date()
+        data = []
+        data.push(objeto)
+
+        pdfp.setFontSize(10)
+        pdfp.text(20, 10, `Emitida: ${actual.getDate()}/${actual.getMonth() + 1}/${actual.getFullYear()}`);
+        pdfp.setFontSize(20)
+        pdfp.text(20, 20, `Receta del Doctor ${sessionStorage.nombre}`);
+        var columns = ["Fecha", "Paciente", "Padecimiento"];
+        pdfp.autoTable(columns, data,
+            { margin: { top: 25 } }
+        );
+        pdfp.setFontSize(15)
+        pdfp.text(20, 47, "Descripcion:");
+        
+        pdfp.setFontSize(12)
+        pdfp.text(20, 54, `${descripcion}`);
+        pdfp.save(`Receta ${actual.getDate()}/${actual.getMonth() + 1}/${actual.getFullYear()}.pdf`);
+    }
+
 }
