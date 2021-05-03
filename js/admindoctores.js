@@ -242,3 +242,45 @@ function obtenerdatosdoctor() {
 
         })
 }
+
+function topdoctores() {
+    var pdfp = new jsPDF();
+
+    pdfp.text(20, 20, "Los doctores con mas citas atendidas son: ");
+
+    var columns = ['Puesto','Nombre','Cantidad de Citas Atendidas'];
+    var data = []
+    var objeto = []
+
+    fetch('https://backend-202010223.herokuapp.com/topdoctores', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+        }
+    })
+        .then(res => res.json())
+        .catch(err => {
+            console.error('Error:', err)
+            alert("Ocurrio un error, ver la consola")
+        })
+        .then(response => {
+            response.forEach(element => {
+                objeto = [
+                    element.puesto,
+                    element.nombre,
+                    element.citasatendidas
+                ]
+                data.push(objeto)
+            });
+            pdfp.autoTable(columns, data,
+                { margin: { top: 25 } }
+            );
+
+            var actual = new Date()
+            pdfp.save(`Reporte Doctores ${actual.getDate()}/${actual.getMonth()+1}/${actual.getFullYear()}.pdf`);
+
+            console.log(data)
+
+        })
+}
