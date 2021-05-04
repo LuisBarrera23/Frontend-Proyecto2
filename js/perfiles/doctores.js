@@ -27,7 +27,7 @@ function vercitas() {
                       <td>${element.motivo}</td>
                       <td>${element.doctor}</td>
                       <td>${element.estado}</td>
-                      <td><button value=${element.idcita} onclick="aceptarcita(this)" type="button" class="btn btn-outline-success" style="width: 150px;">Aceptar</button></td>
+                      <td><button value=${element.idcita} onclick="aceptarcita(this)" type="button" class="btn btn-outline-success" style="width: 150px;">Aceptar</button><button value=${element.idcita} onclick="rechazarcita(this)" type="button" class="btn btn-outline-danger" style="width: 150px; margin-left: 5px;">Rechazar</button></td>
                       </tr>`
                 }
             });
@@ -214,6 +214,41 @@ function aceptarcita(boton) {
         'doctor': sessionStorage.nombre,
         'estado': "Aceptada",
         'iddoctor': sessionStorage.ID
+    }
+    console.log(objeto)
+
+
+
+    fetch('https://backend-202010223.herokuapp.com/actualizarcita', {
+        method: 'PUT',
+        body: JSON.stringify(objeto),
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+        }
+    })
+        .then(res => res.json())
+        .catch(err => {
+            console.error('Error:', err)
+            alert("Ocurrio un error, ver la consola")
+        })
+        .then(response => {
+            alert(response.Mensaje)
+            if (response.Mensaje = "Cita actualizada con exito") {
+                vercitas()
+            }
+
+        })
+}
+
+function rechazarcita(boton) {
+    var idcita = boton.value
+    console.log(idcita)
+    var objeto = {
+        'idcita': idcita,
+        'doctor': " ",
+        'estado': "Rechazada",
+        'iddoctor': -1
     }
     console.log(objeto)
 
