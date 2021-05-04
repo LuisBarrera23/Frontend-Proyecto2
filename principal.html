@@ -324,7 +324,7 @@
 
             if (usuario == "admin" && contraseña == "1234" && user == false) {
                 sessionStorage.setItem("usuario", "admin")
-                alert("Bienvenido " + usuario)
+                alert("Bienvenido Carlos Jimenez" + usuario)
                 location.href = "admin.html"
                 user = true
             }
@@ -344,7 +344,7 @@
                     })
                     .then(response => {
                         response.forEach(element => {
-                            console.log(element.usuario + "vs " + usuario + ",,, " + element.contraseña + "vs " + contraseña)
+
                             if ((element.usuario == usuario) && (element.contraseña == contraseña)) {
                                 alert("Bienvenido " + usuario)
                                 sessionStorage.setItem("ID", element.id)
@@ -378,7 +378,7 @@
                 })
                 .then(response => {
                     response.forEach(element => {
-                        console.log(element.usuario + "vs " + usuario + ",,, " + element.contraseña + "vs " + contraseña)
+
                         if ((element.usuario == usuario) && (element.contraseña == contraseña)) {
                             alert("Bienvenido " + usuario)
                             sessionStorage.setItem("ID", element.id)
@@ -410,7 +410,7 @@
                 })
                 .then(response => {
                     response.forEach(element => {
-                        console.log(element.usuario + "vs " + usuario + ",,, " + element.contraseña + "vs " + contraseña)
+
                         if ((element.usuario == usuario) && (element.contraseña == contraseña)) {
                             alert("Bienvenido " + usuario)
                             sessionStorage.setItem("ID", element.id)
