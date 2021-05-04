@@ -285,6 +285,7 @@ function generarreceta() {
     var padecimiento = document.querySelector('#padecimiento').value
     var descripcion = document.querySelector('#descripcion').value
 
+    
     console.log(fecha)
     console.log(paciente)
     console.log(padecimiento)
@@ -308,6 +309,29 @@ function generarreceta() {
         }
         alert("Por favor llenar los siguientes campos: " + cadena)
     } else {
+        var objeto2 = {
+            'nombre': padecimiento.toLowerCase()
+        }
+        console.log(objeto2)
+    
+    
+        fetch('https://backend-202010223.herokuapp.com/verificarenfermedad', {
+            method: 'POST',
+            body: JSON.stringify(objeto2),
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            }
+        })
+            .then(res => res.json())
+            .catch(err => {
+                console.error('Error:', err)
+                alert("Ocurrio un error, ver la consola")
+            })
+            .then(response => {
+                console.log(response.Mensaje)
+            })
+    
         objeto = [
             fecha,
             paciente,
