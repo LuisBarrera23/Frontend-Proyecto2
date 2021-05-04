@@ -284,3 +284,45 @@ function topdoctores() {
 
         })
 }
+
+function topenfermedades() {
+    var pdfp = new jsPDF();
+
+    pdfp.text(20, 20, "Las enfermedades mas comunes atendidas en el Hospital Angeles son: ");
+
+    var columns = ['Puesto','Nombre de La Enfermedad','Cantidad de registros'];
+    var data = []
+    var objeto = []
+
+    fetch('https://backend-202010223.herokuapp.com/topenfermedades', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+        }
+    })
+        .then(res => res.json())
+        .catch(err => {
+            console.error('Error:', err)
+            alert("Ocurrio un error, ver la consola")
+        })
+        .then(response => {
+            response.forEach(element => {
+                objeto = [
+                    element.puesto,
+                    element.nombre,
+                    element.cantidad
+                ]
+                data.push(objeto)
+            });
+            pdfp.autoTable(columns, data,
+                { margin: { top: 25 } }
+            );
+
+            var actual = new Date()
+            pdfp.save(`Reporte Enfermedades ${actual.getDate()}/${actual.getMonth()+1}/${actual.getFullYear()}.pdf`);
+
+            console.log(data)
+
+        })
+}
